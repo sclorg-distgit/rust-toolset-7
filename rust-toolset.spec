@@ -9,12 +9,12 @@
 
 Summary:        Package that installs %scl
 Name:           %scl_name
-Version:        1.17.0
+Version:        1.19.0
 Release:        1%{?dist}
 License:        ASL 2.0 or MIT
 
-Requires:       %{scl_prefix}rust = 1.17.0
-Requires:       %{scl_prefix}cargo = 0.18.0
+Requires:       %{scl_prefix}rust = 1.19.0
+Requires:       %{scl_prefix}cargo = 0.20.0
 
 BuildRequires:  scl-utils-build
 
@@ -59,6 +59,15 @@ EOF
 %{_root_sysconfdir}/rpm/macros.%{scl}-config
 
 %changelog
+* Mon Jul 24 2017 Josh Stone <jistone@redhat.com> - 1.19.0-1
+- Update to rust-1.19.0 and cargo-0.20.0
+
+* Thu Jun 15 2017 Josh Stone <jistone@redhat.com> - 1.18.0-2
+- Update to cargo-0.19.0
+
+* Thu Jun 15 2017 Josh Stone <jistone@redhat.com> - 1.18.0-1
+- Update to rust-1.18.0
+
 * Thu Jun 01 2017 Josh Stone <jistone@redhat.com> - 1.17.0-1
 - Update to the new SCL name.
 - Require exact rust and cargo versions.
