@@ -12,7 +12,7 @@
 Summary:        Package that installs %scl
 Name:           %scl_name
 Version:        1.20.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        ASL 2.0 or MIT
 
 # How to generate dockerfile tarball:
@@ -22,7 +22,7 @@ License:        ASL 2.0 or MIT
 Source0: %{scl_prefix}docker-b60da8473ec2.tar.gz
 
 Requires:       %{scl_prefix}rust = 1.20.0
-Requires:       %{scl_prefix}cargo = 0.21.0
+Requires:       %{scl_prefix}cargo = 0.21.1
 
 BuildRequires:  scl-utils-build
 
@@ -82,6 +82,9 @@ EOF
 %{dockerfiledir}
 
 %changelog
+* Mon Sep 11 2017 Josh Stone <jistone@redhat.com> - 1.20.0-2
+- Update to cargo-0.21.1
+
 * Wed Sep 06 2017 Josh Stone <jistone@redhat.com> - 1.20.0-1
 - Update to rust-1.20.0 and cargo-0.21.0
 
