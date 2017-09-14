@@ -7,10 +7,12 @@
 
 %scl_package %scl
 
+%global dockerfiledir %{_datadir}/%{scl_prefix}dockerfiles
+
 Summary:        Package that installs %scl
 Name:           %scl_name
 Version:        1.19.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        ASL 2.0 or MIT
 
 Requires:       %{scl_prefix}rust = 1.19.0
@@ -32,6 +34,13 @@ Package shipping essential scripts to work with %scl Software Collection.
 %package build
 Summary: Package shipping basic build configuration
 Requires: scl-utils-build
+
+%package dockerfiles
+Summary: Package shipping Dockerfiles for rust-toolset
+
+%description dockerfiles
+This package provides a set of example Dockerfiles that can be used
+with rust-toolset.
 
 %description build
 Package shipping essential configuration macros to build %scl Software Collection.
@@ -58,7 +67,12 @@ EOF
 %files build
 %{_root_sysconfdir}/rpm/macros.%{scl}-config
 
+%files dockerfiles
+
 %changelog
+* Wed Aug 09 2017 Tom Stellard <tstellar@redhat.com> - 1.19.0-2
+- Add stub dockerfiles sub-package
+
 * Mon Jul 24 2017 Josh Stone <jistone@redhat.com> - 1.19.0-1
 - Update to rust-1.19.0 and cargo-0.20.0
 
