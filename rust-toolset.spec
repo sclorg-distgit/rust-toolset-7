@@ -12,8 +12,14 @@
 Summary:        Package that installs %scl
 Name:           %scl_name
 Version:        1.19.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        ASL 2.0 or MIT
+
+# How to generate dockerfile tarball:
+# rhpkg clone rust-toolset-7-docker
+# cd rust-toolset-7-docker
+# git archive --prefix=rust-toolset-7-docker/ -o rust-toolset-7-docker-`git rev-parse --short HEAD`.tar.gz HEAD
+Source0: %{scl_prefix}docker-b47082d.tar.gz
 
 Requires:       %{scl_prefix}rust = 1.19.0
 Requires:       %{scl_prefix}cargo = 0.20.0
@@ -46,10 +52,15 @@ with rust-toolset.
 Package shipping essential configuration macros to build %scl Software Collection.
 
 %prep
-%setup -c -T
+%setup -c -T -a 0
 
 %install
 %scl_install
+
+install -d %{buildroot}%{dockerfiledir}
+install -d -p -m 755 %{buildroot}%{dockerfiledir}/rhel7
+install -d -p -m 755 %{buildroot}%{dockerfiledir}/rhel7/%{scl_prefix}docker
+cp -a %{scl_prefix}docker %{buildroot}%{dockerfiledir}/rhel7
 
 cat >> %{buildroot}%{_scl_scripts}/enable << EOF
 export PATH="%{_bindir}\${PATH:+:\${PATH}}"
@@ -68,8 +79,12 @@ EOF
 %{_root_sysconfdir}/rpm/macros.%{scl}-config
 
 %files dockerfiles
+%{dockerfiledir}
 
 %changelog
+* Wed Aug 09 2017 Tom Stellard <tstellar@redhat.com> - 1.19.0-3
+- Add dockerfiles
+
 * Wed Aug 09 2017 Tom Stellard <tstellar@redhat.com> - 1.19.0-2
 - Add stub dockerfiles sub-package
 
