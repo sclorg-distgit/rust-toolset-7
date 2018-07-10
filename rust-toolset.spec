@@ -7,22 +7,14 @@
 
 %scl_package %scl
 
-%global dockerfiledir %{_datadir}/%{scl_prefix}dockerfiles
-
 Summary:        Package that installs %scl
 Name:           %scl_name
-Version:        1.20.0
-Release:        4%{?dist}
+Version:        1.22.1
+Release:        1%{?dist}
 License:        ASL 2.0 or MIT
 
-# How to generate dockerfile tarball:
-# rhpkg clone rust-toolset-7-docker
-# cd rust-toolset-7-docker
-# git archive --prefix=rust-toolset-7-docker/ -o rust-toolset-7-docker-`git rev-parse --short HEAD`.tar.gz HEAD
-Source0: %{scl_prefix}docker-23e624089466.tar.gz
-
-Requires:       %{scl_prefix}rust = 1.20.0
-Requires:       %{scl_prefix}cargo = 0.21.1
+Requires:       %{scl_prefix}rust = 1.22.1
+Requires:       %{scl_prefix}cargo = 0.23.0
 
 BuildRequires:  scl-utils-build
 
@@ -41,26 +33,14 @@ Package shipping essential scripts to work with %scl Software Collection.
 Summary: Package shipping basic build configuration
 Requires: scl-utils-build
 
-%package dockerfiles
-Summary: Package shipping Dockerfiles for rust-toolset
-
-%description dockerfiles
-This package provides a set of example Dockerfiles that can be used
-with rust-toolset.
-
 %description build
 Package shipping essential configuration macros to build %scl Software Collection.
 
 %prep
-%setup -c -T -a 0
+%setup -c -T
 
 %install
 %scl_install
-
-install -d %{buildroot}%{dockerfiledir}
-install -d -p -m 755 %{buildroot}%{dockerfiledir}/rhel7
-install -d -p -m 755 %{buildroot}%{dockerfiledir}/rhel7/%{scl_prefix}docker
-cp -a %{scl_prefix}docker %{buildroot}%{dockerfiledir}/rhel7
 
 cat >> %{buildroot}%{_scl_scripts}/enable << EOF
 export PATH="%{_bindir}\${PATH:+:\${PATH}}"
@@ -78,10 +58,11 @@ EOF
 %files build
 %{_root_sysconfdir}/rpm/macros.%{scl}-config
 
-%files dockerfiles
-%{dockerfiledir}
-
 %changelog
+* Wed Dec 13 2017 Josh Stone <jistone@redhat.com> - 1.22.1-1
+- Update to rust-1.22.1 and cargo-0.23.0
+- (rhbz 1521195) remove dockerfiles
+
 * Wed Oct 04 2017 Josh Stone <jistone@redhat.com> - 1.20.0-4
 - Update dockerfiles
 
