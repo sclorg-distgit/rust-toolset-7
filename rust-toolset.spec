@@ -9,14 +9,17 @@
 
 Summary:        Package that installs %scl
 Name:           %scl_name
-Version:        1.22.1
+Version:        1.25.0
 Release:        1%{?dist}
 License:        ASL 2.0 or MIT
 
-Requires:       %{scl_prefix}rust = 1.22.1
-Requires:       %{scl_prefix}cargo = 0.23.0
+Requires:       %{scl_prefix}rust = 1.25.0
+Requires:       %{scl_prefix}cargo = 0.26.0
 
 BuildRequires:  scl-utils-build
+
+# We removed -dockerfiles per rhbz1521195
+Obsoletes:      %{scl_prefix}dockerfiles < 1.22.1
 
 %description
 This is the main package for %scl Software Collection.
@@ -50,15 +53,34 @@ export MANPATH="%{_mandir}:\${MANPATH:-}"
 source scl_source enable %{scl_llvm}
 EOF
 
+# This allows users to build packages using Rust Toolset.
+cat >> %{buildroot}%{_root_sysconfdir}/rpm/macros.%{scl} << EOF
+%%enable_rusttoolset7 %%global ___build_pre %%{___build_pre}; source scl_source enable %{scl} || :
+EOF
+
 %files
 
 %files runtime
 %scl_files
+%{_root_sysconfdir}/rpm/macros.%{scl}
 
 %files build
 %{_root_sysconfdir}/rpm/macros.%{scl}-config
 
 %changelog
+* Tue Apr 03 2018 Josh Stone <jistone@redhat.com> - 1.25.0-1
+- Update to rust-1.25.0 and cargo-0.26.0
+
+* Thu Feb 22 2018 Josh Stone <jistone@redhat.com> - 1.24.0-1
+- Update to rust-1.24.0 and cargo-0.25.0
+- Obsolete the old -dockerfiles subpackage
+
+* Tue Feb 20 2018 Josh Stone <jistone@redhat.com> - 1.23.0-2
+- Add the %%enable_rusttoolset7 macro to the runtime subpackage.
+
+* Tue Jan 16 2018 Josh Stone <jistone@redhat.com> - 1.23.0-1
+- Update to rust-1.23.0 and cargo-0.24.0
+
 * Wed Dec 13 2017 Josh Stone <jistone@redhat.com> - 1.22.1-1
 - Update to rust-1.22.1 and cargo-0.23.0
 - (rhbz 1521195) remove dockerfiles
