@@ -12,14 +12,14 @@
 Summary:        Package that installs %scl
 Name:           %scl_name
 Version:        1.20.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 License:        ASL 2.0 or MIT
 
 # How to generate dockerfile tarball:
 # rhpkg clone rust-toolset-7-docker
 # cd rust-toolset-7-docker
 # git archive --prefix=rust-toolset-7-docker/ -o rust-toolset-7-docker-`git rev-parse --short HEAD`.tar.gz HEAD
-Source0: %{scl_prefix}docker-b60da8473ec2.tar.gz
+Source0: %{scl_prefix}docker-23e624089466.tar.gz
 
 Requires:       %{scl_prefix}rust = 1.20.0
 Requires:       %{scl_prefix}cargo = 0.21.1
@@ -82,6 +82,12 @@ EOF
 %{dockerfiledir}
 
 %changelog
+* Wed Oct 04 2017 Josh Stone <jistone@redhat.com> - 1.20.0-4
+- Update dockerfiles
+
+* Tue Sep 19 2017 Josh Stone <jistone@redhat.com> - 1.20.0-3
+- Update dockerfiles
+
 * Mon Sep 11 2017 Josh Stone <jistone@redhat.com> - 1.20.0-2
 - Update to cargo-0.21.1
 
